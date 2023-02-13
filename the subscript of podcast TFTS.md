@@ -18,6 +18,10 @@ the steps :
 
 ## Crawl the Original Subscript
 
+> I choose the python's module "[urllib3](https://urllib3.readthedocs.io/en/stable/user-guide.html)" to get the webpage and "[BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/#id9)" to parser it.
+
+the [TFTS website](https://www.gsb.stanford.edu/business-podcasts/think-fast-talk-smart-podcast) stored subscripts of all episodes. And all we need to do , is let python to crap the subscript of the newest episode( or other episode is ok). 
+
 
 
 ---
