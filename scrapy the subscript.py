@@ -4,24 +4,13 @@
 # In[1]:
 
 
-# !conda install beautifulsoup4
-
-
-# In[2]:
-
-
-# !conda install urllib3
-
-
-# In[3]:
-
-
 import urllib3
 from bs4 import BeautifulSoup
 import re
+import json
 
 
-# In[4]:
+# In[2]:
 
 
 url = "https://www.gsb.stanford.edu/business-podcasts/think-fast-talk-smart-podcast"
@@ -45,7 +34,7 @@ print("文章标题：", the_episode_title)
 print("文章网址：", the_episode_url)
 
 
-# In[5]:
+# In[3]:
 
 
 # 获取文章页面
@@ -59,7 +48,7 @@ page_soup = BeautifulSoup(page.data)
 pos = page_soup.find("div", class_='announcement-stories__wrapper-information')
 
 
-# In[6]:
+# In[4]:
 
 
 # 获取标题
@@ -90,7 +79,7 @@ conver = re.sub('</p>', '\n\n', conver)
 print("获取标题、总结、时间、作者、介绍以及正文完成！等待写入tex文件")
 
 
-# In[7]:
+# In[5]:
 
 
 # tex文件模板
@@ -131,15 +120,26 @@ content = re.sub('<a href=\"(.*?)\">(.*?)</a>', "\\\\href{\\1}{\\2}", content)
 
 tex = temple % (title, summary, infor, content)
 
-with open("./subscript.tex", "w+", encoding="utf-8") as f:
+with open("subscript.tex", "w+", encoding="utf-8") as f:
     f.write(tex)
     
 print("将内容写入tex文件成功！等待编译pdf")
 
 
-# In[8]:
+# In[6]:
 
 
 get_ipython().system('xelatex subscript.tex')
+get_ipython().system('del *.aux *.log *.out')
 print("编译subscript.pdf成功！等待发送邮箱")
+
+
+# In[7]:
+
+
+# 转化为.py脚本
+get_ipython().system('jupyter nbconvert --to script "scrapy the subscript.ipynb"')
+# 将必要变量存入json文件
+with open("./info.json", "a", encoding='utf-8') as f:
+    json.dump({"title":title, "summary":summary}, f)
 
