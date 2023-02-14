@@ -67,13 +67,13 @@ Normally, compared with LaTex IDE (like TexStudio ), Commands to compile .tex fi
 
 Thank God ! we don't need too much deep technique, just a command line ```xelatex script.tex``` is OK.
 
-What? You even didn't install the LaTex yet! oh my dear~ so, [install and config LaTex ]([博士汪倾力整理！全网最强大的LaTeX+Sublime Text写作环境-第二集 手把手教你安装配置整套环境_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1p44y1P7P4/?spm_id_from=333.1007.top_right_bar_window_default_collection.content.click&vd_source=f2260db80eec1196bb01aa75098d22a8)), take it, no thanks.
+What? You even didn't install the LaTex yet! oh my dear~ so, [install and config LaTex ](https://www.bilibili.com/video/BV1p44y1P7P4/?spm_id_from=333.1007.top_right_bar_window_default_collection.content.click&vd_source=f2260db80eec1196bb01aa75098d22a8), take it, no thanks.
 
 ---
 
 ## Sent to Me
 
-> python standerd module to create email and sent email is [email]([email --- 电子邮件与 MIME 处理包 — Python 3.11.2 文档](https://docs.python.org/zh-cn/3/library/email.html#module-email)) and [smtpib]([smtplib --- SMTP 协议客户端 — Python 3.11.2 文档](https://docs.python.org/zh-cn/3/library/smtplib.html#module-smtplib))
+> python standerd module to create email and sent email is [email](https://docs.python.org/zh-cn/3/library/email.html#module-email) and [smtpib](https://docs.python.org/zh-cn/3/library/smtplib.html#module-smtplib)
 
 
 
