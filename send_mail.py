@@ -12,7 +12,7 @@ with open("./info.json", "r", encoding='utf-8') as f:
 # 构造邮件
 msg = EmailMessage()
 
-msg["Subject"] = '“TFTS”播客字幕--{}'.format(info["title"])
+msg["Subject"] = f'TFTS播客字幕: {info["title"]}'
 msg["From"] = account["address"]
 msg["To"] = "lingjiangxu@qq.com"
 msg.set_content(info["summary"])

@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import urllib3
 from bs4 import BeautifulSoup
 import re
 import json
-
-
-# In[2]:
+from smtplib import SMTP
+from email.message import EmailMessage
 
 
 url = "https://www.gsb.stanford.edu/business-podcasts/think-fast-talk-smart-podcast"
@@ -34,9 +30,6 @@ print("文章标题：", the_episode_title)
 print("文章网址：", the_episode_url)
 
 
-# In[3]:
-
-
 # 获取文章页面
 page = http.request("GET", the_episode_url)
 print("获取文章页面状态：", page.status)
@@ -46,9 +39,6 @@ page_soup = BeautifulSoup(page.data)
 
 # 定位总体位置
 pos = page_soup.find("div", class_='announcement-stories__wrapper-information')
-
-
-# In[4]:
 
 
 # 获取标题
@@ -77,9 +67,6 @@ conver = re.sub('<p.*?>', '', str(conver))
 conver = re.sub('</p>', '\n\n', conver)
 
 print("获取标题、总结、时间、作者、介绍以及正文完成！等待写入tex文件")
-
-
-# In[5]:
 
 
 # tex文件模板
@@ -117,6 +104,7 @@ content = intro +'''\\vspace{1em}
 content = re.sub("<em>(.*?)</em>", "\\\\textsl{\\1}", content)
 content = re.sub("<strong>(.*?)</strong>", "\\\\textbf{\\1}", content)
 content = re.sub('<a href=\"(.*?)\">(.*?)</a>', "\\\\href{\\1}{\\2}", content)
+content = re.sub('<br/>', "\n", content)
 
 tex = temple % (title, summary, infor, content)
 
@@ -126,20 +114,43 @@ with open("subscript.tex", "w+", encoding="utf-8") as f:
 print("将内容写入tex文件成功！等待编译pdf")
 
 
-# In[6]:
-
-
 get_ipython().system('xelatex subscript.tex')
 get_ipython().system('del *.aux *.log *.out')
 print("编译subscript.pdf成功！等待发送邮箱")
 
 
-# In[7]:
-
-
-# 转化为.py脚本
-get_ipython().system('jupyter nbconvert --to script "scrapy the subscript.ipynb"')
+# # 转化为.py脚本
+# !jupyter nbconvert --to script "scrapy the subscript.ipynb"
 # 将必要变量存入json文件
 with open("./info.json", "a", encoding='utf-8') as f:
     json.dump({"title":title, "summary":summary}, f)
 
+
+
+# 获取必要数据
+with open("./account.json", "r", encoding='utf-8') as f:
+    account = json.load(f)
+
+with open("./info.json", "r", encoding='utf-8') as f:
+    info = json.load(f)
+
+# 构造邮件
+msg = EmailMessage()
+
+msg["Subject"] = f'TFTS podcast: {info["title"]}'
+msg["From"] = account["address"]
+msg["To"] = "lingjiangxu@qq.com"
+msg.set_content(info["summary"])
+
+with open("subscript.pdf", "rb") as f:
+    msg.add_attachment(f.read(), maintype="application", subtype="pdf", filename="subscript.pdf")
+
+# 发送邮件
+server = SMTP(host="smtp.126.com", port='25')
+server.login(account["address"], account["password"])
+server.send_message(msg)
+print("发送成功！")
+server.quit()
+
+# 过河拆桥
+get_ipython().system('del subscript.tex subscript.pdf info.json')

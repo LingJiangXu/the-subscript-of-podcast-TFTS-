@@ -77,6 +77,24 @@ What? You even didn't install the LaTex yet! oh my dear~ so, [install and config
 
 
 
+# files introduction
+
+```scrapy the subscript.ipynb```: the program finish the first three steps, but .ipynb file.
+
+```send_mail.py```:  the program finish the last steps.
+
+```subscript.tex```: the generated .tex file.
+
+```subscript.pdf```: the complied .pdf file.
+
+```info.json```: some information about the episode we scrapied, which used to help send email better.
+
+```account.json```: Emm.... Not surprisingly, you couldn't find this file, if you do, email me soon, Otherwise there will be a terrible thing to happen.(just a cold joke, the file is my contains my email password, used to log in the email server)
+
+```main.py```: mian .py file, which joint ```scrapy the subscript.ipynb``` and ```send_mail.py``` , you can only use commond ```ipython main.py``` to finish the goal.
+
+
+
 
 
 
