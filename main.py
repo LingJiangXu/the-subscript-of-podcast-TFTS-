@@ -7,7 +7,9 @@ import re
 import json
 from smtplib import SMTP
 from email.message import EmailMessage
+from sys import exit
 
+print("\nHERE WE GO!\n")
 
 url = "https://www.gsb.stanford.edu/business-podcasts/think-fast-talk-smart-podcast"
 
@@ -28,6 +30,13 @@ the_episode_title = str(target_pos.a.string)
 the_episode_url = "https://www.gsb.stanford.edu/" + str(target_pos.a["href"])
 print("文章标题：", the_episode_title)
 print("文章网址：", the_episode_url)
+
+# 添加交互判断
+judge = input("\n是否继续？[Y/N]  ")
+while judge != "Y" and judge != "N":
+    judge = input("\n请重新输入？[Y/N]  ")
+if judge == "N":
+    exit()
 
 
 # 获取文章页面
@@ -137,10 +146,18 @@ with open("./info.json", "r", encoding='utf-8') as f:
 # 构造邮件
 msg = EmailMessage()
 
+# 收件人交互
+getter = ["lingjiangxu@qq.com"]
+judge_to = input("\n目前收件人为{0} 是否添加？[Y/*]     ".format(",".join(getter)))
+while judge_to == 'Y':
+    getter.append(input("请输入需要添加的收件人："))
+    judge_to = input("\n目前收件人为{0} 是否继续添加？[Y/*]     ".format(",".join(getter)))
+
 msg["Subject"] = f'TFTS podcast: {info["title"]}'
 msg["From"] = account["address"]
-msg["To"] = "lingjiangxu@qq.com"
+msg["To"] = getter
 msg.set_content(info["summary"])
+
 
 with open("subscript.pdf", "rb") as f:
     msg.add_attachment(f.read(), maintype="application", subtype="pdf", filename="subscript.pdf")
